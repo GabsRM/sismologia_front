@@ -11,3 +11,26 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.earthquake-container {
+  padding: 20px;
+}
+
+.earthquake-title {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.earthquake-list {
+  display: grid;
+  grid-gap: 20px;
+}
+
+.earthquake-item {
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.loading-message {
+  font-style: italic;
+}
