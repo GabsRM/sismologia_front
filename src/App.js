@@ -1,15 +1,18 @@
 import React, { useState } from "react";
-import { useFetch } from "./useFetch"; // Asegúrate de importar correctamente useFetch desde el archivo correspondiente
-import CommentForm from "./CommentForm"; // Importa el componente CommentForm que creamos anteriormente
+import { useFetch } from "./useFetch";
+import CommentForm from "./CommentForm";
+
 function App() {
   const data = useFetch(
-    "http://127.0.0.1:3000/api/features?page=1&per_page=9&mag_type%5B%5D=md%27"
+    "http://127.0.0.1:3000/api/features?page=1&per_page=9&mag_type%5B%5D=md%27" 
   );
   const [currentComment, setCurrentComment] = useState("");
+  const [commentMessage, setCommentMessage] = useState(""); 
 
   const handleCommentSubmit = (featureId, comment) => {
     console.log("Comentario enviado para el sismo", featureId, ":", comment);
     setCurrentComment(comment);
+    setCommentMessage(`Comentario enviado para el sismo ${featureId}: ${comment}`); 
   };
 
   function sendComment(featureId) {
@@ -38,7 +41,7 @@ function App() {
                 onSubmit={sendComment(earthquake.id)}
                 featureId={earthquake.id}
               />
-              {console.log(earthquake.id)}
+              {commentMessage && <p>{commentMessage}</p>} 
             </div>
           ))}
         </div>

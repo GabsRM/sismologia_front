@@ -3,7 +3,7 @@ import axios from "axios";
 
 function CommentForm({ onSubmit, featureId }) {
   const [commentBody, setCommentBody] = useState("");
-  let show = false;
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (event) => {
     setCommentBody(event.target.value);
@@ -11,9 +11,12 @@ function CommentForm({ onSubmit, featureId }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    onSubmit(featureId, commentBody); // Enviamos featureId y el cuerpo del comentario a la función onSubmit
-    console.log(featureId);
- 
+    if (!commentBody.trim()) { 
+      setErrorMessage("El comentario no puede estar vacío");
+      return;
+    }
+
+    onSubmit(featureId, commentBody); 
 
     axios
       .post(`http://127.0.0.1:3000/api/features/${featureId}/comments`, {
@@ -21,14 +24,15 @@ function CommentForm({ onSubmit, featureId }) {
       })
       .then((response) => {
         console.log(response);
-        show = true;
+        
       })
       .catch((error) => {
         console.log(error);
       });
 
-    // Limpia el campo de comentario después de enviar.
+    
     setCommentBody("");
+    setErrorMessage(""); 
   };
 
   return (
@@ -42,9 +46,8 @@ function CommentForm({ onSubmit, featureId }) {
           rows={4}
           cols={50}
         />
-        <br />
-       
-        <button type="submit">Enviar comentario </button>
+        {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+        <button type="submit">Enviar comentario</button>
       </form>
     </div>
   );
